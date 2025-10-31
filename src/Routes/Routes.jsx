@@ -1,41 +1,40 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router';
-import App from '../App';
 import Home from '../Pages/Home';
 import Products from '../Pages/Products';
 import MainLayout from '../Layouts/MainLayout';
 import Error from '../Pages/Error';
 import Wishlist from '../Pages/Wishlist';
 
-// Named export
 const router = createBrowserRouter([
   {
     path: '/', // main layout
     element: <MainLayout />,
     errorElement: <Error />,
-    hydrateFallbackElement: <p>Loading....</p>,
     children: [
       {
-        path: 'home', // child routes do NOT need leading slash
+        index: true, // default page at "/"
         element: <Home />,
-        loader: () => fetch('./furnitureData.json'),
+        loader: () => fetch('./furnitureData.json').then((res) => res.json()), // optional loader
       },
       {
-        path: 'products', // now Products will also render inside MainLayout
+        path: 'home', // optional explicit home path
+        element: <Home />,
+        loader: () => fetch('./furnitureData.json').then((res) => res.json()),
+      },
+      {
+        path: 'products', // Products page
         element: <Products />,
+        loader: () => fetch('./furnitureData.json').then((res) => res.json()),
       },
       {
-        path: '', // optional index route for default page
-        element: <Home />,
-      },
-      {
-        path: 'wishlist',
+        path: 'wishlist', // Wishlist page
         element: <Wishlist />,
       },
     ],
   },
   {
-    path: '*',
+    path: '*', // fallback for unmatched routes
     element: <Error />,
   },
 ]);

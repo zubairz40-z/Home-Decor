@@ -48,7 +48,7 @@ const Navbar = () => {
         </div>
 
         {/* Logo */}
-        <Link to="/" className="btn btn-ghost text-xl">
+        <Link to="/home" className="btn btn-ghost text-2xl font-bold">
           Z Decoré
         </Link>
       </div>
